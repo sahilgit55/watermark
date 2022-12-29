@@ -44,7 +44,7 @@ AHBot = Client(
 
 
 
-@AHBot.on_message(filters.command(["start", "help"]) & filters.private)
+@AHBot.on_message(filters.command(["start", "help"]))
 async def HelpWatermark(bot, cmd):
 	if not await db.is_user_exist(cmd.chat.id):
 		await db.add_user(cmd.chat.id)
@@ -64,14 +64,14 @@ async def HelpWatermark(bot, cmd):
 	)
 
 
-@AHBot.on_message(filters.command(["reset"]) & filters.private)
+@AHBot.on_message(filters.command(["reset"]))
 async def reset(bot, update):
         await db.delete_user(update.chat.id)
         await db.add_user(update.chat.id)
         await update.reply_text("Settings reseted successfully")
 
 
-@AHBot.on_message(filters.command("settings") & filters.private)
+@AHBot.on_message(filters.command("settings"))
 async def SettingsBot(bot, cmd):
 	if not await db.is_user_exist(cmd.chat.id):
 		await db.add_user(cmd.chat.id)
@@ -137,7 +137,7 @@ async def SettingsBot(bot, cmd):
 	)
 
 
-@AHBot.on_message((filters.document | filters.video | filters.photo) & filters.private)
+@AHBot.on_message((filters.document | filters.video | filters.photo))
 async def VidWatermarkAdder(bot, cmd):
 	if not await db.is_user_exist(cmd.chat.id):
 		await db.add_user(cmd.chat.id)
@@ -344,7 +344,7 @@ async def VidWatermarkAdder(bot, cmd):
 	await bot.send_message(chat_id=Config.LOG_CHANNEL, text=f"#WATERMARK_ADDED: Video Uploaded!\n\n{user_info}", reply_to_message_id=forward_vid.id, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Ban User", callback_data=f"ban_{cmd.chat.id}")]]))
 
 
-@AHBot.on_message(filters.command("cancel") & filters.private)
+@AHBot.on_message(filters.command("cancel"))
 async def CancelWatermarkAdder(bot, cmd):
 	if not await db.is_user_exist(cmd.chat.id):
 		await db.add_user(cmd.chat.id)
@@ -374,12 +374,12 @@ async def CancelWatermarkAdder(bot, cmd):
 			pass
 
 
-@AHBot.on_message(filters.private & filters.command("broadcast") & filters.user(Config.OWNER_ID) & filters.reply)
+@AHBot.on_message(filters.command("broadcast") & filters.user(Config.OWNER_ID) & filters.reply)
 async def open_broadcast_handler(bot, message):
 	await broadcast_handler(c=bot, m=message)
 
 
-@AHBot.on_message(filters.private & filters.command("status"))
+@AHBot.on_message(filters.command("status"))
 async def sts(_, m):
 	status = Config.DOWN_PATH + "/WatermarkAdder/status.json"
 	if os.path.exists(status):

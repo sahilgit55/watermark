@@ -12,6 +12,6 @@ motor==3.1.1
 dnspython==2.2.1
 psutil==5.9.4
 humanfriendly==10.0
+numpy==1.21.6
 https://github.com/Tinche/aiofiles/archive/master.zip
 aiofiles
-numpy
